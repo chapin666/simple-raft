@@ -70,10 +70,12 @@ func (rf *Raft) Heartbeat(args HeartbeatArgs, reply *HeartbeatReply) error {
 
 	// 如果 leader 节点小于当前节点 term
 	if args.Term < rf.currentTerm {
+		reply.Success = false
 		reply.Term = rf.currentTerm
 		return nil
 	}
 
+	reply.Success = true
 	reply.Term = rf.currentTerm
 	rf.heartbeatC <- true
 
@@ -191,7 +193,8 @@ type HeartbeatArgs struct {
 }
 
 type HeartbeatReply struct {
-	Term int
+	Success bool
+	Term    int
 }
 
 func (rf *Raft) broadcastHeartbeat() {
