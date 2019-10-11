@@ -3,8 +3,8 @@
 ---
 
 ### TODO
-- [ ] Leader election
-- [x] Log replication
+- [x] Leader election
+- [ ] Log replication
 
 ### Branch
 - master： Leader election & Log replication
