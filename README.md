@@ -10,7 +10,7 @@ simple implementation of raft algorithm
 ### Branch
 - master： Leader election & Log replication
 - election：Leader election
-- replication： Log replication
+- replication：Log replication
 
 ### build
 ```
