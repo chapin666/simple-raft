@@ -73,11 +73,13 @@ func (rf *Raft) RequestVote(args VoteArgs, reply *VoteReply) error {
 // Heartbeat rpc method
 func (rf *Raft) Heartbeat(args HeartbeatArgs, reply *HeartbeatReply) error {
 
+	// 如果 leader 节点小于当前节点 term
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
 		return nil
 	}
 
+	// 如果当前节点term小于leader节点term
 	if args.Term > rf.currentTerm {
 		rf.currentTerm = args.Term
 		rf.state = Follower
@@ -225,6 +227,8 @@ func (rf *Raft) sendHeartbeat(serverID int, args HeartbeatArgs, reply *Heartbeat
 
 	defer client.Close()
 	client.Call("Raft.Heartbeat", args, reply)
+
+	// 如果 leader 节点落后于 follower 节点
 	if reply.Term > rf.currentTerm {
 		rf.currentTerm = reply.Term
 		rf.state = Follower
