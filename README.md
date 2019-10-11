@@ -1,5 +1,4 @@
-
-simple implementation of raft algorithm
+# simple implementation of raft consensus algorithm
 
 ---
 
