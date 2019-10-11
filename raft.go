@@ -55,13 +55,8 @@ func (rf *Raft) RequestVote(args VoteArgs, reply *VoteReply) error {
 		return nil
 	}
 
-	if args.Term > rf.currentTerm {
-		rf.currentTerm = args.Term
-		rf.state = Follower
-		rf.votedFor = -1
-	}
-
 	if rf.votedFor == -1 {
+		rf.currentTerm = args.Term
 		rf.votedFor = args.CandidateID
 		reply.Term = rf.currentTerm
 		reply.VoteGranted = true
@@ -77,13 +72,6 @@ func (rf *Raft) Heartbeat(args HeartbeatArgs, reply *HeartbeatReply) error {
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
 		return nil
-	}
-
-	// 如果当前节点term小于leader节点term
-	if args.Term > rf.currentTerm {
-		rf.currentTerm = args.Term
-		rf.state = Follower
-		rf.votedFor = -1
 	}
 
 	reply.Term = rf.currentTerm
