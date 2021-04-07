@@ -240,9 +240,10 @@ func (rf *Raft) sendRequestVote(serverID int, args VoteArgs, reply *VoteReply) {
 
 	if reply.VoteGranted {
 		rf.voteCount++
-		if rf.voteCount > len(rf.nodes)/2+1 {
-			rf.toLeaderC <- true
-		}
+	}
+	
+	if rf.voteCount >= len(rf.nodes)/2+1 {
+		rf.toLeaderC <- true
 	}
 }
 
