@@ -281,7 +281,7 @@ func (rf *Raft) broadcastHeartbeat() {
 		// 提取 preLogIndex - baseIndex 之后的entry，发送给 follower
 		prevLogIndex := rf.nextIndex[i] - 1
 		if rf.getLastIndex() > prevLogIndex {
-			args.PrevLogTerm = prevLogIndex
+			args.PrevLogIndex = prevLogIndex
 			args.PrevLogTerm = rf.log[prevLogIndex].LogTerm
 			args.Entries = rf.log[prevLogIndex:]
 			log.Printf("send entries: %v\n", args.Entries)
